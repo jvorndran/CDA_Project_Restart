@@ -16,7 +16,7 @@ public class MemorySimulator extends JFrame {
     private int currentAddress = 0;
     private int currentLine = 0; // To keep track of the current line
     private TreeMap<Integer, Pair<String, Long>> cache = new TreeMap<>();
-    private static int CACHE_SIZE = 4;
+    private static int CACHE_SIZE = 5;
     private JTextArea cacheDisplay;
     private int[] registers = new int[32];
     private int pc = 0;
