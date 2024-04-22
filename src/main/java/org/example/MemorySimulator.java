@@ -195,7 +195,7 @@ public class MemorySimulator extends JFrame {
 //                JOptionPane.showMessageDialog(this, "Reached the end of memory.", "Step Info", JOptionPane.INFORMATION_MESSAGE);
 //            }
         } else {
-            JOptionPane.showMessageDialog(this, "End of memory or invalid address", "Step Info", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "End of program or invalid address", "Step Info", JOptionPane.ERROR_MESSAGE);
         }
         currentLine = memory.headMap(currentAddress).size();
         updateMemoryDisplay();
