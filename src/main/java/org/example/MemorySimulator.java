@@ -149,6 +149,7 @@ public class MemorySimulator extends JFrame {
             if (!memory.isEmpty()) {
                 currentAddress = memory.firstKey();
             }
+            pc = currentAddress;
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Error reading file: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
@@ -183,12 +184,16 @@ public class MemorySimulator extends JFrame {
         if (memory.containsKey(currentAddress)) {
             String binaryString = getFromCacheOrMemory(currentAddress);
             executeOperation(binaryString);
+            System.out.println("Current address: " + currentAddress);
+            System.out.println("Current PC: " + pc);
+            pc += 4;
+            currentAddress = pc;
             Integer nextAddress = memory.higherKey(currentAddress);
-            if (nextAddress != null) {
-                currentAddress = nextAddress;
-            } else {
-                JOptionPane.showMessageDialog(this, "Reached the end of memory.", "Step Info", JOptionPane.INFORMATION_MESSAGE);
-            }
+//            if (nextAddress != null) {
+//                currentAddress = nextAddress;
+//            } else {
+//                JOptionPane.showMessageDialog(this, "Reached the end of memory.", "Step Info", JOptionPane.INFORMATION_MESSAGE);
+//            }
         } else {
             JOptionPane.showMessageDialog(this, "End of memory or invalid address", "Step Info", JOptionPane.ERROR_MESSAGE);
         }
@@ -320,23 +325,23 @@ public class MemorySimulator extends JFrame {
                 break;
             case "000100": // BEQ
                 if (registers[rs] == registers[rt]) {
-                    pc += 4 + (immediate << 2);
+                    pc += 4 + (immediate << 2) - 4;
                 }
                 operationLogDisplay.append("Executing BEQ operation: " + binaryData + "\n");
                 break;
             case "000101": // BNE
                 if (registers[rs] != registers[rt]) {
-                    pc += 4 + (immediate << 2);
+                    pc += 4 + (immediate << 2) - 4;
                 }
                 operationLogDisplay.append("Executing BNE operation: " + binaryData + "\n");
                 break;
             case "000010": // JUMP (J)
-                pc = (Integer.parseInt(binaryData.substring(6), 2) << 2);
+                pc = (Integer.parseInt(binaryData.substring(6), 2) << 2) - 4;
                 operationLogDisplay.append("Executing JUMP operation: " + binaryData + "\n");
                 break;
             case "000011": // JAL (Jump and Link)
                 registers[31] = pc + 8;
-                pc = (pc & 0xF0000000) | ((Integer.parseInt(binaryData.substring(6), 2) << 2));
+                pc = (pc & 0xF0000000) | ((Integer.parseInt(binaryData.substring(6), 2) << 2)) - 4;
                 operationLogDisplay.append("Executing JAL operation: " + binaryData + "\n");
                 break;
             default:
