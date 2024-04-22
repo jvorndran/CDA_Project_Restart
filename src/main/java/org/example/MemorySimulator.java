@@ -184,8 +184,6 @@ public class MemorySimulator extends JFrame {
         if (memory.containsKey(currentAddress)) {
             String binaryString = getFromCacheOrMemory(currentAddress);
             executeOperation(binaryString);
-            System.out.println("Current address: " + currentAddress);
-            System.out.println("Current PC: " + pc);
             pc += 4;
             currentAddress = pc;
             Integer nextAddress = memory.higherKey(currentAddress);
@@ -226,6 +224,8 @@ public class MemorySimulator extends JFrame {
                 case EX:
                     microStepLogDisplay.append("Execute operation at address: " + currentAddress + " with data: " + currentBitstring + "\n");
                     executeOperation(currentBitstring);
+                    pc += 4;
+                    currentAddress = pc;
                     currentMicrostep = MicrostepState.MEM;
                     break;
                 case MEM:
