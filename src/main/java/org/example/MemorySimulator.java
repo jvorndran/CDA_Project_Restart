@@ -319,7 +319,9 @@ public class MemorySimulator extends JFrame {
             case "000101": // BNE
                 return "BNE R" + rs + ", R" + rt + ", " + immediate;
             case "000010": // JUMP (J)
-                return "J " + Integer.parseInt(binaryData.substring(6), 2);
+                int address = (Integer.parseInt(binaryData.substring(6), 2) << 2);
+                String hexAddress = "0x" + Integer.toHexString(address);
+                return "JUMP TO " + hexAddress;
             case "000011": // JAL (Jump and Link)
                 return "JAL " + Integer.parseInt(binaryData.substring(6), 2);
             default:
